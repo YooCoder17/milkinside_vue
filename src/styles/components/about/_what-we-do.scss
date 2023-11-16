@@ -1,0 +1,131 @@
+.c-what-we-do {
+  // background: $white;
+
+  &.c-about__section {
+    // color: $black;
+    flex-direction: row;
+  }
+  &__content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    max-width: 64%;
+    padding-bottom: 87px;
+    padding-left: var(--padding);
+  }
+
+  &__heading {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+
+    h2 {
+      @extend %sub-24;
+    }
+
+    &__wrapper {
+      margin-top: 64px;
+    }
+  }
+
+  &__desc {
+    @extend %title-3;
+    font-weight: 700;
+    max-width: toRem(782);
+    margin-top: 20px;
+  }
+
+  &__image {
+    @include ratio(1, 1);
+    &__wrapper {
+      max-width: 36%;
+      width: 100%;
+      padding-right: var(--padding);
+      padding-top: 6vh;
+      margin-top: 65px;
+      margin-left: 32px;
+    }
+  }
+
+  &__footer {
+    margin-top: auto;
+  }
+
+  &__companies {
+    display: flex;
+    margin-top: 24px;
+  }
+}
+.c-what-we-do-mobile{
+  flex-direction: column;
+
+  &__intro-wrapper{
+    padding: 0 24px;
+  }
+
+  &__sections{
+    overflow: auto;
+    scroll-snap-type: x mandatory;
+    display: flex;
+    height: 100%;
+  }
+
+  &__section{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 100vw;
+    flex-shrink: 0;
+    padding: 0 24px 96px;
+    scroll-snap-align: start;
+
+    &-bg-image{
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+    }
+
+    &-index{
+      @extend %body-85;
+      margin-bottom: 16px;
+      opacity: 0.08;
+    }
+
+    &-title{
+      font-size: max(3rem, 27px);
+      line-height: 1.25;
+      letter-spacing: calc(-0.01 * 24px);
+    }
+
+    &-line{
+      display: flex;
+      height: 2px;
+      margin: 24px 0 32px;
+      max-width: 246px;
+
+      &--bar{
+        width: 24px;
+        background-color: $black;
+        flex-shrink: 0;
+      }
+
+      &--faded-bar{
+        flex-grow: 1;
+        background-color: $black;
+        opacity: 0.2;
+      }
+    }
+
+    &-description{
+      max-width: 266px;
+      @extend %body-16;
+      color: $black;
+    }
+  }
+}
