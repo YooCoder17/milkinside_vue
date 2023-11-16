@@ -96,7 +96,7 @@ export default {
       contentActiveSectionIndex: 0, 
       direction: 0,
       isSectionSwitching: false,
-      loading: true,
+      loading: false,
       startY: 0,
       footerSectionOffsetX: 0,
       showFooter: false,

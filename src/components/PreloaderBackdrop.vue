@@ -3,7 +3,10 @@
     <div class="c-preloader__content">
       <div id="loading-animation"></div>
       <div class="c-preloader__progress">
-        <div class="c-preloader__progress-track" :style="{ width: `${loadingProgress}%` }"></div>
+        <div
+          class="c-preloader__progress-track"
+          :style="{width: `${loadingProgress}%`}"
+        ></div>
       </div>
     </div>
   </aside>
@@ -13,8 +16,6 @@
 /* eslint-disable */
 import lottie from 'lottie-web';
 import loadingLogoAnimation from '@/assets/lottiAnimationsData/loadingLogo';
-
-let val = 0;
 
 export default {
   name: 'PreloaderBackdrop',
@@ -28,11 +29,12 @@ export default {
     return {
       loadedVideoData: null,
       currentLoadingFrame: 0,
-      progress: 0,
-      timer: null,
     };
   },
   mounted() {
+    console.log("-------- Home Page Data -------");
+
+    console.log(this.homePageData);
     lottie.loadAnimation({
       container: document.getElementById('loading-animation'),
       renderer: 'svg',
@@ -57,8 +59,9 @@ export default {
       }, 0);
     },
     loadingProgress() {
-      let percent = (this.currentLoadingFrame / this.totalFramesCount) * 100;
-      return Math.floor((percent + this.progress) / 2);
+      const percent = (this.currentLoadingFrame / this.totalFramesCount) * 100;
+      console.log("currentLoadingFrame-----" + this.currentLoadingFrame);
+      return Math.floor(percent);
     },
   },
   watch: {
@@ -115,18 +118,10 @@ export default {
 
       Promise.all(loadedVideoData)
         .then((data) => {
-          // alert('progress' + this.progress);
-          this.timer = setInterval(() => {
-            this.progress += 1;
-            if ( this.progress >= 100 ) {
-              clearInterval(this.timer);
-              this.$emit('finishLoading', data);
-            }
-          }, 20);
+          this.$emit('finishLoading', data);
         })
         .catch((error) => {
           console.error(error);
-          alert('error while loading');
         });
     },
   },

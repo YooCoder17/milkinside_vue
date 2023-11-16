@@ -1,16 +1,13 @@
  <!-- eslint-disable -->
 <template>
-  <div
-    class="c-background"
-    data-section="2"
-  >
-    <canvas
-      ref="canvas"
-      width="1920"
-      height="1080"
-      :style="canvasStyles"
-    >
-    </canvas>
+  <div class="c-background" data-section="2">
+    <div id="parentElement">
+      <canvas ref="canvas" width="1920" height="1080" :style="canvasStyles" id="myCanvas">
+      </canvas>
+    </div>
+  <!-- <video loop autoPlay muted>
+      <source src="" type="video/mp4"/>
+         </video> -->
   </div>
 </template>
 
@@ -97,7 +94,7 @@ export default {
       }
 
       const scaleFactor = canvas.scrollHeight / canvas.height;
-      const scaledWidth = Math.floor(canvas.width * scaleFactor);
+      const scaledWidth = Math.floor(document.body.clientWidth * scaleFactor);
       const maxOffsetX = scaledWidth - canvas.clientWidth;
 
       return maxOffsetX * -1;
@@ -112,8 +109,6 @@ export default {
        * Get a reference to the canvas element and create a context object.
        * @type {HTMLCanvasElement}
        */
-      const { canvas } = this.$refs;
-      const ctx = canvas.getContext('2d');
 
       // Calculate the time interval between each frame based on the set fps.
       const fpsInterval = 1000 / this.fps;
@@ -125,6 +120,8 @@ export default {
         if (!this.isPlaying) {
           return;
         }
+
+        console.log(requestAnimationFrame);
 
         // Request the next frame of the animation.
         requestAnimationFrame(drawFrame);
@@ -140,8 +137,23 @@ export default {
 
           // Draw the current image onto the canvas and increment the current index.
           const image = this.images[this.currentIndex];
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+          const newCanvas = document.createElement('canvas');
+          newCanvas.width = 1920;
+          newCanvas.height = 1080;
+
+          const parentElement = document.getElementById('parentElement');
+          const existingCanvas = parentElement.querySelector('canvas');
+          if (existingCanvas) {
+            parentElement.removeChild(existingCanvas);
+          }
+
+          parentElement.appendChild(newCanvas);
+
+          const ctx = newCanvas.getContext('2d');
+
+          ctx.clearRect(0, 0, newCanvas.width, newCanvas.height);
+          ctx.drawImage(image, 0, 0, newCanvas.width, newCanvas.height);
           this.currentIndex = (this.currentIndex + 1) % this.images.length;
 
           // If the animation should only play once and has finished, stop the animation
@@ -152,6 +164,7 @@ export default {
             this.$emit('finished');
           }
         }
+
       };
 
       // Start the animation loop.
@@ -161,7 +174,7 @@ export default {
 };
 </script>
 <style scoped>
-canvas{
+canvas {
   position: absolute;
 }
 </style>
